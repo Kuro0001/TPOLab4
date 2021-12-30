@@ -231,6 +231,83 @@ namespace TestingLab4
             }
             return new VersionsInterval[0];
         }
+
+        public static Versions[] Tilda(Versions version) //для примера, на вход версия формата 1.1.1
+        {
+            Versions[] intervals = new Versions[2];
+            string left = minVersionString;
+            string right = maxVersionString;
+
+            if (version.Patch != 0)
+            {
+                left = version.Minor.ToString() + "." + version.Major.ToString() + "." + version.Patch.ToString();
+                right = version.Minor.ToString() + "." + (version.Major + 1).ToString() + "." + 0;
+                //венуть интервалы >=1.1.1 и <1.2
+            }
+            else
+            {
+                if (version.Major != 0)
+                {
+                    left = version.Minor.ToString() + "." + version.Major.ToString() + "." + 0;
+                    right = version.Minor.ToString() + "." + (version.Major + 1).ToString() + "." + 0;
+                    //венуть интервалы >=1.1.0 и <1.2.0
+                }
+                else
+                {
+                    left = version.Minor.ToString() + "." + 0 + "." + 0;
+                    right = (version.Minor + 1).ToString() + "." + 0 + "." + 0;
+                    //венуть интервалы >=1.0.0 и <2.0.0
+                }
+            }
+
+            intervals[0] = new Versions(left);
+            intervals[1] = new Versions(right);
+            return intervals; //на выходе евая и правая границы
+        }
+
+        public static bool VersionTilda(Versions version, Versions tilda)// версия для теста 1.1.1 и интервал 1.1.0 - 1.2
+        {
+            Versions[] interval = Tilda(tilda);
+            Versions left = new Versions(interval[0].ToString());
+            Versions right = new Versions(interval[1].ToString());
+
+            if (tilda.Patch != 0)
+            {
+                if (version.Minor == left.Minor)
+                    if (version.Major == left.Major)                        
+                        if (version.Patch >= left.Patch)
+                            return true;
+                /*
+                 * Патч != 0, то Мажор и Минор должны быть одинаковыми
+                 * патч в интервале >= Left и < Right, но т.к. Right.Patch = 0 при Right.Major = Left.Major + 1, то в условии if его не будет
+                 */
+            }
+            else
+            {
+                if (tilda.Major != 0)
+                {
+                    if (version.Minor == left.Minor)
+                        if (version.Major >= left.Major && version.Major < right.Major)
+                            return true;
+                    /*
+                     * если в тильде Мажор != 0, а Патч == 0, то Минор должны быть одинаковыми
+                     * Мажор в интервале >= Left и < Right
+                     */
+                }
+                else
+                {
+                    if (version.Minor >= left.Minor && version.Minor < right.Minor)
+                        return true;
+                    /*
+                     * если в тильде Мажор != 0, а Минор и Патч == 0, то
+                     * Мажор в интервале >= Left и < Right
+                     */
+                }
+            }
+            return false;
+        }
+
+
         public static VersionsInterval? Union(VersionsInterval version1, VersionsInterval version2)
         {
             if (version1.leftVersion <= version2.leftVersion)
