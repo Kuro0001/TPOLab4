@@ -265,6 +265,37 @@ namespace TestingLab4
             return intervals; //на выходе евая и правая границы
         }
 
+        public static VersionsInterval Tilda(string tilda_string) //для примера, на вход версия формата 1.1.1
+        {
+            Versions version = new Versions(tilda_string);
+            string left = minVersionString;
+            string right = maxVersionString;
+
+            if (version.Patch != 0)
+            {
+                left = version.Minor.ToString() + "." + version.Major.ToString() + "." + version.Patch.ToString();
+                right = version.Minor.ToString() + "." + (version.Major + 1).ToString() + "." + 0;
+                //венуть интервалы >=1.1.1 и <1.2
+            }
+            else
+            {
+                if (version.Major != 0)
+                {
+                    left = version.Minor.ToString() + "." + version.Major.ToString() + "." + 0;
+                    right = version.Minor.ToString() + "." + (version.Major + 1).ToString() + "." + 0;
+                    //венуть интервалы >=1.1.0 и <1.2.0
+                }
+                else
+                {
+                    left = version.Minor.ToString() + "." + 0 + "." + 0;
+                    right = (version.Minor + 1).ToString() + "." + 0 + "." + 0;
+                    //венуть интервалы >=1.0.0 и <2.0.0
+                }
+            }
+            VersionsInterval interval = new VersionsInterval(">=" + left + "&& <" + right);
+            return interval; //на выходе ">= левая И  < правая границы"
+        }
+
         public static bool VersionTilda(Versions version, Versions tilda)// версия для теста 1.1.1 и интервал 1.1.0 - 1.2
         {
             Versions[] interval = Tilda(tilda);
