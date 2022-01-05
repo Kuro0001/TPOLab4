@@ -279,7 +279,7 @@ namespace TestingLab4
 			Assert.AreEqual
 				(
 					tilda_111.ToString(),
-					new VersionsInterval(">=1.1.1 <1.2.0").ToString()
+					new VersionsInterval(">=1.1.1 <1.4.0").ToString()
 				);
 
 
