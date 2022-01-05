@@ -292,52 +292,48 @@ namespace TestingLab4
                     //венуть интервалы >=1.0.0 и <2.0.0
                 } 
             }
-            VersionsInterval interval = new VersionsInterval(">=" + left + " <" + right);
+            VersionsInterval interval = new VersionsInterval(new Versions(left),new Versions(right));
             return interval; //на выходе ">= левая И  < правая границы"
         }
-        
-        //public static bool VersionTilda(Versions version, Versions tilda)// версия для теста 1.1.1 и интервал 1.1.0 - 1.2
-        //{
-        //    Versions[] interval = Tilda(tilda);
-        //    Versions left = new Versions(interval[0].ToString());
-        //    Versions right = new Versions(interval[1].ToString());
 
-        //    if (tilda.Patch != 0)
-        //    {
-        //        if (version.Minor == left.Minor)
-        //            if (version.Major == left.Major)                        
-        //                if (version.Patch >= left.Patch)
-        //                    return true;
-        //        /*
-        //         * Патч != 0, то Мажор и Минор должны быть одинаковыми
-        //         * патч в интервале >= Left и < Right, но т.к. Right.Patch = 0 при Right.Major = Left.Major + 1, то в условии if его не будет
-        //         */
-        //    }
-        //    else
-        //    {
-        //        if (tilda.Major != 0)
-        //        {
-        //            if (version.Minor == left.Minor)
-        //                if (version.Major >= left.Major && version.Major < right.Major)
-        //                    return true;
-        //            /*
-        //             * если в тильде Мажор != 0, а Патч == 0, то Минор должны быть одинаковыми
-        //             * Мажор в интервале >= Left и < Right
-        //             */
-        //        }
-        //        else
-        //        {
-        //            if (version.Minor >= left.Minor && version.Minor < right.Minor)
-        //                return true;
-        //            /*
-        //             * если в тильде Мажор != 0, а Минор и Патч == 0, то
-        //             * Мажор в интервале >= Left и < Right
-        //             */
-        //        }
-        //    }
-        //    return false;
-        //}
-        
+        public static bool Contains(Versions version_string, VersionsInterval interval)// версия для теста 1.1.1 и интервал 1.1.0 - 1.2.0
+        {
+            if (interval.leftVersion.Patch != 0)
+            {
+                if (interval.leftVersion.Minor == version_string.Minor)
+                    if (interval.leftVersion.Major == version_string.Major)
+                        if (version_string.Patch >= interval.leftVersion.Patch)
+                            return true;
+                /*
+                 * патч != 0, то мажор и минор должны быть одинаковыми
+                 * патч в интервале >= left и < right, но т.к. right.patch = 0 при right.major = left.major + 1, то в условии if его не будет
+                 */
+            }
+            else
+            {
+                if (interval.leftVersion.Major != 0)
+                {
+                    if (interval.leftVersion.Minor == version_string.Minor)
+                        if (version_string.Major >= interval.leftVersion.Major && version_string.Major < interval.rightVersion.Major)
+                            return true;
+                    /*
+                     * если в тильде мажор != 0, а патч == 0, то минор должны быть одинаковыми
+                     * мажор в интервале >= left и < right
+                     */
+                }
+                else
+                {
+                    if (version_string.Minor >= interval.leftVersion.Minor && version_string.Minor < interval.rightVersion.Minor)
+                        return true;
+                    /*
+                     * если в тильде мажор != 0, а минор и патч == 0, то
+                     * мажор в интервале >= left и < right
+                     */
+                }
+            }
+            return false;
+        }
+
 
         public static VersionsInterval? Union(VersionsInterval version1, VersionsInterval version2)
         {

@@ -257,6 +257,7 @@ namespace TestingLab4
 			[Test]
 		public void TildaTest()
 		{
+			
 			VersionsInterval tilda_100 = VersionsInterval.Tilda("1.0.0");
 			VersionsInterval tilda_101 = VersionsInterval.Tilda("1.0.1");
 			VersionsInterval tilda_110 = VersionsInterval.Tilda("1.1.0");
@@ -264,69 +265,65 @@ namespace TestingLab4
 			Assert.AreEqual
 				(
 					tilda_100.ToString(),
-					new VersionsInterval(">=1.0.0 <2.0.0").ToString()
+					new VersionsInterval(new Versions("1.0.0"), new Versions("2.0.0")).ToString()
 				);
 			Assert.AreEqual
 				(
 					tilda_101.ToString(),
-					new VersionsInterval(">=1.0.1 <1.1.0").ToString()
+					new VersionsInterval(new Versions("1.0.1"), new Versions("1.1.0")).ToString()
 				);
 			Assert.AreEqual
 				(
 					tilda_110.ToString(),
-					new VersionsInterval(">=1.1.0 <1.2.0").ToString()
+					new VersionsInterval(new Versions("1.1.0"), new Versions("1.2.0")).ToString()
 				);
 			Assert.AreEqual
 				(
 					tilda_111.ToString(),
-					new VersionsInterval(">=1.1.1 <1.0.0").ToString()
+					new VersionsInterval(new Versions("1.1.1"), new Versions("1.2.0")).ToString()
 				);
 
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.0.0"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.0.1"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.0"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.1"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.2"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.2.0"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.2.1"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.0"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.1"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.1.1"), tilda_100));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
 
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.0.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.0.1"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.1.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.1.1"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.1.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.1"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.1"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.1.0"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.1.1"), tilda_101));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
 
-			/*
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.0.0"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.0.1"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.0"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.1"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.2"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.2.0"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.2.1"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.0"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.1"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.1.1"), new Versions("1.0.0")));//тильда 1.0.0 интервал >= 1.0.0 и < 2.0.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.0.0"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.0.1"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.0"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.1"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.2"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.0"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.1"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.0"), tilda_110));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
 
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.0.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.0.1"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.1.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.1.1"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.1.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.1"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.1"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.1.0"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.1.1"), new Versions("1.0.1")));//тильда 1.0.1 интервал >= 1.0.1 и < 1.1.0
-
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.0.0"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.0.1"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.0"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.1"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.2"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.0"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.1"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.0"), new Versions("1.1.0")));//тильда 1.1.0 интервал >= 1.1.0 и < 1.2.0
-
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.0.0"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.0.1"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.1.0"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.1"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.2"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsTrue(VersionsInterval.VersionTilda(new Versions("1.1.3"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("1.2.0"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			Assert.IsFalse(VersionsInterval.VersionTilda(new Versions("2.0.0"), new Versions("1.1.1")));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
-			*/
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.0.0"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.0.1"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.1.0"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.1"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.2"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsTrue(VersionsInterval.Contains(new Versions("1.1.3"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("1.2.0"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
+			Assert.IsFalse(VersionsInterval.Contains(new Versions("2.0.0"), tilda_111));//тильда 1.1.1 интервал >= 1.1.1 и < 1.2.0
 		}
 	}
 }
